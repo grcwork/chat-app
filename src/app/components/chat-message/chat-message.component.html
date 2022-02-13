@@ -1,0 +1,12 @@
+<div *ngIf="isUserMessage; else elseBlock" class="user-message">
+  <p>{{ text }}</p>
+</div>
+
+<ng-template #elseBlock>
+  <div class="not-user-message">
+    <img
+      src="https://avatars.dicebear.com/api/bottts/{{ currentChatUserId }}.svg"
+    />
+    <p>{{ text }}</p>
+  </div>
+</ng-template>

@@ -1,0 +1,39 @@
+<div class="chat-container">
+  <img
+    *ngIf="currentUserYouChatWithId; else elseBlock"
+    class="user-photo"
+    src="https://avatars.dicebear.com/api/bottts/{{ currentUserYouChatWithId }}.svg"
+  />
+  <ng-template #elseBlock
+    ><p class="select-user-text">Select a user to chat</p></ng-template
+  >
+  <div class="chat-messages-container" #messagesContainer>
+    <ng-container *ngFor="let message of this.chats[openChatIndex]?.messages">
+      <app-chat-message
+        *ngIf="message.isUserMessage; else elseBlock"
+        class="user-message"
+        [isUserMessage]="message.isUserMessage"
+        [text]="message.text"
+      ></app-chat-message>
+      <ng-template #elseBlock>
+        <app-chat-message
+          class="not-user-message"
+          [isUserMessage]="message.isUserMessage"
+          [text]="message.text"
+        ></app-chat-message>
+      </ng-template>
+    </ng-container>
+  </div>
+  <form
+    [formGroup]="sendMessageForm"
+    (ngSubmit)="onSubmit()"
+    class="send-message-form"
+  >
+    <input
+      type="text"
+      placeholder="Write a message..."
+      formControlName="text"
+    />
+    <input type="submit" />
+  </form>
+</div>

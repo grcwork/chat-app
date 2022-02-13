@@ -1,0 +1,37 @@
+.user-list {
+  display: flex;
+  flex-direction: column;
+  /*border: 1px solid red;*/
+}
+
+.user-list li {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.user-list li:hover {
+  background-color: rgb(224, 235, 75);
+  transition: all 0.4s linear;
+}
+
+.user-list li p {
+  font-family: "Roboto Mono", monospace;
+}
+
+.user-list li img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+}
+
+.me {
+ border: 5px solid green;
+ border-radius: 3px; 
+}
+
+.user-you-chat-with {
+  border: 5px solid orange;
+  border-radius: 3px;
+}

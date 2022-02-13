@@ -1,0 +1,6 @@
+<ul class="user-list">
+  <li *ngFor="let user of users" (click)="openChat(user)" [ngClass]="{ 'me': user === this.chatService.myUserId, 'user-you-chat-with': user === this.currentUserYouChatWithId }">
+    <img src="https://avatars.dicebear.com/api/bottts/{{ user }}.svg" />
+    <p>{{ user.slice(0, 3) }}</p>
+  </li>
+</ul>
