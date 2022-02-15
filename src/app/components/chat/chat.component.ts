@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms'
 import { Message } from '../../models/Message';
 import { Chat } from '../../models/Chat';
@@ -11,7 +11,6 @@ import { ChatService } from '../../services/chat.service';
 })
 export class ChatComponent implements OnInit {
 
-  @Input()
   chats: Chat[] = [];
 
   openChatIndex!: number;
@@ -20,7 +19,7 @@ export class ChatComponent implements OnInit {
    text: ''
  });
 
-  currentUserYouChatWithId?: string; 
+  currentUserYouChatWithId?: string;
 
   constructor(private formBuilder: FormBuilder, private chatService: ChatService) { }
 
@@ -37,7 +36,6 @@ export class ChatComponent implements OnInit {
       for (let i = 0; i < this.chats.length; i++) {
         if (this.chats[i].userYouChatWithId === this.currentUserYouChatWithId) {
           this.openChatIndex = i;
-          console.log(this.chats)
           chatExists = true;
         }
       }
@@ -46,18 +44,26 @@ export class ChatComponent implements OnInit {
         this.chats.push(newChat);
         this.openChatIndex = this.chats.length-1;
       }
+
+      this.chatService.removeUnreadMessagesUserId(user);
     })
   }
 
   getMessagesFromPrivateChat() {
     this.chatService.getMessagesFromPrivateChat().subscribe((message) => {
       let chatExists: boolean = false;
+      let unreadMessages: boolean = message.sender !== this.currentUserYouChatWithId;
       for (let i = 0; i < this.chats.length; i++) {
         if (this.chats[i].userYouChatWithId === message.sender) {
           this.chats[i].messages.push({isUserMessage: false, text: message.message});
           chatExists = true;
         }
       }
+
+      if (unreadMessages) {
+        this.chatService.addUnreadMessagesUserId(message.sender);
+      }
+
       if (!chatExists) {
         const newChat: Chat = {userYouChatWithId: message.sender, messages: [{isUserMessage: false, text: message.message}]}
         this.chats.push(newChat);
@@ -73,7 +79,7 @@ export class ChatComponent implements OnInit {
   onSubmit(): void {
     if (this.sendMessageForm.dirty && this.sendMessageForm.valid) {
       let newMessage: Message = { isUserMessage: true, text: this.sendMessageForm.get("text")!.value };
-
+      
       let chatExists: boolean = false;
       for (let i = 0; i < this.chats.length; i++) {
         if (this.chats[i].userYouChatWithId === this.currentUserYouChatWithId) {

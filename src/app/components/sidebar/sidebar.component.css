@@ -35,3 +35,11 @@
   border: 5px solid orange;
   border-radius: 3px;
 }
+
+.new-messages {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgb(51, 255, 51);
+  align-self: flex-end;
+}

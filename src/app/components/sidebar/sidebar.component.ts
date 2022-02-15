@@ -13,9 +13,12 @@ export class SidebarComponent implements OnInit {
 
   currentUserYouChatWithId?: string;
 
+  unreadMesagesUsersId: string[] = [];
+
   ngOnInit(): void {
     this.getActiveUsers();
     this.getCurrentUserYouChatWithId();
+    this.getUnreadMesagesUsersId();
   }
 
   getCurrentUserYouChatWithId() {
@@ -33,6 +36,12 @@ export class SidebarComponent implements OnInit {
   getActiveUsers() {
     this.chatService.getActiveUsers().subscribe((users) => {
       this.users = users;
+    });
+  }
+
+  getUnreadMesagesUsersId() {
+    this.chatService.unreadMessagesUsersId$.subscribe((users) => {
+      this.unreadMesagesUsersId = users;
     });
   }
 }
